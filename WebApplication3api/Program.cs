@@ -1,12 +1,14 @@
 
+using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
+using presistences;
 using presistences.Data;
 
 namespace WebApplication3api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +21,14 @@ namespace WebApplication3api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            //seeding
+            builder.Services.AddScoped<IDbInitializer,DbInitializer>();
 
             var app = builder.Build();
-
+            //sedding
+            using var scope=app.Services.CreateScope();
+            var dbInitializer=scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+            await dbInitializer.Initializer();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
