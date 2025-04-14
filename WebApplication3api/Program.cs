@@ -3,13 +3,16 @@ using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using presistences;
 using presistences.Data;
+using System.Globalization;
 
 namespace WebApplication3api
 {
     public class Program
     {
-        public static async void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.

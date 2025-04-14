@@ -28,7 +28,7 @@ namespace presistences
                 }
                 if (!_context.ProductTypes.Any())
                 {
-                    var typesData = await File.ReadAllTextAsync(@"..\WebApplication3api\Infrastructure\presistences\Data\Seeding\types.json");
+                    var typesData = await File.ReadAllTextAsync(@"..\Infrastructure\presistences\Data\Seeding\types.json");
                     var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
                     if (types is not null && types.Any())
                     {
@@ -39,7 +39,7 @@ namespace presistences
 
                 if (!_context.ProductBrands.Any())
                 {
-                    var typesData = await File.ReadAllTextAsync(@"..\WebApplication3api\Infrastructure\presistences\Data\Seeding\brands.json");
+                    var typesData = await File.ReadAllTextAsync(@"..\Infrastructure\presistences\Data\Seeding\brands.json");
                     var types = JsonSerializer.Deserialize<List<ProductBrand>>(typesData);
                     if (types is not null && types.Any())
                     {
@@ -50,7 +50,7 @@ namespace presistences
 
                 if (!_context.Products.Any())
                 {
-                    var typesData = await File.ReadAllTextAsync(@"..\WebApplication3api\Infrastructure\presistences\Data\Seeding\products.json");
+                    var typesData = await File.ReadAllTextAsync(@"..\Infrastructure\presistences\Data\Seeding\products.json");
                     var types = JsonSerializer.Deserialize<List<Product>>(typesData);
                     if (types is not null && types.Any())
                     {
