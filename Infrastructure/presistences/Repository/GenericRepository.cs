@@ -28,14 +28,26 @@ namespace presistences.Repository
 
         public async Task<IEnumerable<TEntity>> GetAllAsunc(bool trackchanges = false)
         {
+            if (typeof(TEntity) == typeof(Product))
+            {
+                return trackchanges ?
+                     await _dbContext.Products.Include(p => p.ProductType).Include
+                     (p => p.ProductBrand).ToListAsync() as IEnumerable<TEntity> :
+                    await _dbContext.Products.Include(p => p.ProductType).Include
+                    (p => p.ProductBrand).AsNoTracking().ToListAsync() as IEnumerable<TEntity>;
+            }
             return trackchanges ?
-                 await _dbContext.Set<TEntity>().ToListAsync():
-                await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
+                await _dbContext.Set<TEntity>().ToListAsync() :
+               await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
         public async Task<TEntity?> GetAsync(TKey id)
         {
-            return await _dbContext.Set<TEntity>().FindAsync(id);
+            if (typeof(TEntity) == typeof(Product))
+            {
+                return await _dbContext.Products.Include(p => p.ProductBrand).Include(p => p.ProductType).FirstOrDefaultAsync(p => p.Id == id as int?) as TEntity;
+            }
+                return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
         public void Update(TEntity entity)
