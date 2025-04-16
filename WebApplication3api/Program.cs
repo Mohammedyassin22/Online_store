@@ -3,7 +3,10 @@ using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using presistences;
 using presistences.Data;
+using Services;
+using ServicesAbstractions;
 using System.Globalization;
+using AssemplyReference = Services.AssemplyReference;
 
 namespace WebApplication3api
 {
@@ -26,6 +29,11 @@ namespace WebApplication3api
             builder.Services.AddSwaggerGen();
             //seeding
             builder.Services.AddScoped<IDbInitializer,DbInitializer>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IProductServices,ProductServices>();
+            builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
+            builder.Services.AddAutoMapper(typeof(AssemplyReference).Assembly);
 
             var app = builder.Build();
             //sedding
