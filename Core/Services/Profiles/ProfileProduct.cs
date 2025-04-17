@@ -9,15 +9,24 @@ using System.Threading.Tasks;
 
 namespace Services.Profiles
 {
-    public class ProfileProduct:Profile
+    public class ProfileProduct : Profile
     {
-        public ProfileProduct() {
+        public ProfileProduct()
+        {
             CreateMap<Product, ProductDto>()
-                .ForMember(x=>x.BrandName, o=>o.MapFrom(s=>s.ProductBrand.Name))
-                .ForMember(x=>x.TypeName ,z=>z.MapFrom(s=>s.ProductType.Name))
-                ;
-            CreateMap<ProductBrand, BrandDto>();
-            CreateMap<ProductType, TypeDto>();
+                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.ProductBrand.Name))
+                .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.ProductType.Name))
+                .ForMember(dest => dest.PictureUrl, o => o.MapFrom<PictureUrlReasor>());
+
+            // Map ProductBrand → BrandDto
+            CreateMap<ProductBrand, BrandDto>()
+                .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Name));
+
+            // Map ProductType → TypeDto
+            CreateMap<ProductType, TypeDto>()
+                .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.Name));
         }
     }
 }
