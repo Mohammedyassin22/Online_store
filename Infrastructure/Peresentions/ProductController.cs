@@ -28,14 +28,14 @@ namespace Peresentions
             return Ok(result);
         }
         [HttpGet("brands")]
-        public async Task<IActionResult> GetAllBrand()
+        public async Task<IActionResult> GetAllBrands()
         {
             var result=await serviceProduct.Services.GetAllBrandAsync();
             if (result is null) return BadRequest();
             return Ok(result);
         }
         [HttpGet("types")]
-        public async Task<IActionResult> GetAllType()
+        public async Task<IActionResult> GetAllTypes()
         {
             var result = await serviceProduct.Services.GetAllTypesAsync();
             if (result is null) return BadRequest();

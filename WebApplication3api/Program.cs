@@ -33,7 +33,9 @@ namespace WebApplication3api
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProductServices,ProductServices>();
             builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
+
             builder.Services.AddAutoMapper(typeof(AssemplyReference).Assembly);
+            
 
             var app = builder.Build();
             //sedding
@@ -47,6 +49,7 @@ namespace WebApplication3api
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
