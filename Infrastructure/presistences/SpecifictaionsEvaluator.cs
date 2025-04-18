@@ -21,6 +21,14 @@ namespace presistences
             {
                 query=query.Where(spec.Criterial);
             }
+            if(spec.OrderBy is not null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+            else if(spec.OrderByDesc is not null) 
+            {
+                query=query.OrderByDescending(spec.OrderByDesc);
+            }
             query = spec.IncludeExpression.Aggregate(query,
                 (CurrentQuery, includeExpression) => CurrentQuery.Include(includeExpression));
             return query;
