@@ -21,9 +21,9 @@ namespace Services
             return result;  
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(int? brandid,int? typeid)
         {
-            var spec = new ProductWithBrandAndTypeSpecification();
+            var spec = new ProductWithBrandAndTypeSpecification( brandid,  typeid);
             var products = await unitOfWork.GetRepository<Product, int>().GetAllAsunc();
             var result = mapper.Map<IEnumerable<ProductDto>>(products);
             return result;
