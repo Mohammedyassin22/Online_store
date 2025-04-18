@@ -13,6 +13,8 @@ namespace Services.Specifications
     {
         public Expression<Func<TEntity, bool>> Criterial { get ; set; }
         public List<Expression<Func<TEntity, object>>> IncludeExpression { get; set; } = new List<Expression<Func<TEntity, object>>>();
+        public Expression<Func<TEntity, object>>? OrderBy { get ; set ; }
+        public Expression<Func<TEntity, object>>? OrderByDesc { get ; set ; }
 
         public BaseSpectifications(Expression<Func<TEntity, bool>> expression)
         {
@@ -22,5 +24,14 @@ namespace Services.Specifications
         {
             IncludeExpression.Add(expression);
         }
+        protected void AddOrderBy(Expression<Func<TEntity,object>>expression)
+        {
+            OrderBy=expression;
+        }
+        protected void AddOrderByDesc(Expression<Func<TEntity, object>> expression)
+        {
+            OrderByDesc = expression;
+        }
     }
+
 }
