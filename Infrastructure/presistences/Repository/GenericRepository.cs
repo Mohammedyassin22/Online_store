@@ -12,6 +12,10 @@ namespace presistences.Repository
 {
     public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
+        private IQueryable<TEntity> ApplySpictifications(ISpectification<TEntity, TKey> spec)
+        {
+            return SpecifictaionsEvaluator.GetQuery(_dbContext.Set<TEntity>(),spec);
+        }
         private readonly StoreDbContext _dbContext;
         public GenericRepository(StoreDbContext context) {
         _dbContext = context;
@@ -41,6 +45,11 @@ namespace presistences.Repository
                await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<TEntity>> GetAllAsunc(ISpectification<TEntity, TKey> spec, bool trackchanges = false)
+        {
+            return await ApplySpictifications(spec).ToListAsync();
+        }
+
         public async Task<TEntity?> GetAsync(TKey id)
         {
             if (typeof(TEntity) == typeof(Product))
@@ -48,6 +57,11 @@ namespace presistences.Repository
                 return await _dbContext.Products.Include(p => p.ProductBrand).Include(p => p.ProductType).FirstOrDefaultAsync(p => p.Id == id as int?) as TEntity;
             }
                 return await _dbContext.Set<TEntity>().FindAsync(id);
+        }
+
+        public Task<TEntity?> GetAsync(ISpectification<TEntity, TKey> spec)
+        {
+            return ApplySpictifications(spec).FirstOrDefaultAsync();
         }
 
         public void Update(TEntity entity)

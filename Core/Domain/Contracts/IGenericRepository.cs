@@ -11,7 +11,9 @@ namespace Domain.Contracts
     {
         Task<IEnumerable<TEntity>> GetAllAsunc(bool trackchanges= false);
         Task <TEntity?>GetAsync(TKey id);
-        Task AddAsync(TEntity entity);
+
+        Task<IEnumerable<TEntity>> GetAllAsunc(ISpectification<TEntity,TKey>spec,bool trackchanges=false);
+        Task<TEntity?> GetAsync(ISpectification<TEntity,TKey>spec);
         void Update(TEntity entity);
         void Delete(TEntity entity);
     }
