@@ -14,9 +14,10 @@ namespace Peresentions
     public class ProductController(IServiceProduct serviceProduct):ControllerBase
     {
         [HttpGet]
-        public   async Task <IActionResult> GetAllProducts(int? brandid , int? typeid,string? sort)
+        public   async Task <IActionResult> GetAllProductsAsync(int? brandid, int? typeid, string? sort, int indexpage = 1, int pagesize = 5)
+
         {
-            var result = await serviceProduct.Services.GetAllProductsAsync(brandid, typeid,sort);
+            var result = await serviceProduct.Services.GetAllProductsAsync(brandid, typeid, sort, indexpage, pagesize);
             if (result is null) return BadRequest();
             return Ok(result);
         }

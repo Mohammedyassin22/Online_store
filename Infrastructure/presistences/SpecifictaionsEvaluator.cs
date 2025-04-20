@@ -29,6 +29,9 @@ namespace presistences
             {
                 query=query.OrderByDescending(spec.OrderByDesc);
             }
+            if (spec.Ispagration)
+                query = query.Skip(spec.skip).Take(spec.take);
+
             query = spec.IncludeExpression.Aggregate(query,
                 (CurrentQuery, includeExpression) => CurrentQuery.Include(includeExpression));
             return query;
