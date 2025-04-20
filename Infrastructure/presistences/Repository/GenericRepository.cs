@@ -68,5 +68,10 @@ namespace presistences.Repository
         {
             _dbContext.Update(entity);
         }
+
+        public async Task<int> CountAsync(ISpectification<TEntity, TKey> spec)
+        {
+            return await ApplySpictifications(spec).CountAsync();
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Services.Specifications
             }
         }
         public ProductWithBrandAndTypeSpecification(ProductSpecificationParameter specparams) : base(p=>
+         (string.IsNullOrEmpty(specparams.Serach) || p.Name.ToLower().Contains(specparams.Serach.ToLower())) &&
             (!specparams.Brandid.HasValue || p.BrandId==specparams.Brandid)&&
         (!specparams.Typeid.HasValue || p.TypeId == specparams.Typeid)
             )
