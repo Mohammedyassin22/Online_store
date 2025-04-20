@@ -11,6 +11,7 @@ namespace Shared
         public int? Brandid {  get; set; }
         public int? Typeid {  get; set; }
         public string? Sort { get; set; }
+        public string? Serach { get; set; }
         private int _pageindex;
         private int _pagesize;
 
