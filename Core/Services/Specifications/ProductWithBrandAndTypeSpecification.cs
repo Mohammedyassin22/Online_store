@@ -42,13 +42,14 @@ namespace Services.Specifications
                 AddOrderBy(p => p.Name);
             }
         }
-        public ProductWithBrandAndTypeSpecification(int? brandid, int? typeid,string? sort) : base(p=>
+        public ProductWithBrandAndTypeSpecification(int? brandid, int? typeid,string? sort,int pageindex,int pagesize) : base(p=>
             (!brandid.HasValue || p.BrandId==brandid)&&
-        (!typeid.HasValue || p.TypeId == brandid)
+        (!typeid.HasValue || p.TypeId == typeid)
             )
         {
             ApplyIncludes();
             ApplySorting(sort);
+            ApplyPgination(pageindex,pagesize);
         }
         public ProductWithBrandAndTypeSpecification(int id) : base(p => p.Id == id)
         {

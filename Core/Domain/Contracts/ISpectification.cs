@@ -14,5 +14,8 @@ namespace Domain.Contracts
         List<Expression<Func<TEntity, object>>> IncludeExpression { get; set; }
         Expression<Func<TEntity,object>>? OrderBy { get; set; }
         Expression<Func<TEntity, object>>? OrderByDesc { get; set; }
+        int skip { get; set; }
+        int take { get; set; }
+        bool Ispagration {  get; set; }
     }
 }

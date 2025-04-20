@@ -15,6 +15,9 @@ namespace Services.Specifications
         public List<Expression<Func<TEntity, object>>> IncludeExpression { get; set; } = new List<Expression<Func<TEntity, object>>>();
         public Expression<Func<TEntity, object>>? OrderBy { get ; set ; }
         public Expression<Func<TEntity, object>>? OrderByDesc { get ; set ; }
+        public int skip { get ; set; }
+        public int take { get ; set; }
+        public bool Ispagration { get; set; }
 
         public BaseSpectifications(Expression<Func<TEntity, bool>> expression)
         {
@@ -31,6 +34,12 @@ namespace Services.Specifications
         protected void AddOrderByDesc(Expression<Func<TEntity, object>> expression)
         {
             OrderByDesc = expression;
+        }
+        protected void ApplyPgination(int pageindex,int pagesize)
+        {
+            Ispagration = true;
+            take = pagesize;
+            skip=(pageindex-1)*pagesize;
         }
     }
 
