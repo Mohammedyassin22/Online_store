@@ -1,4 +1,6 @@
-﻿using Shared.ErrorModels;
+﻿using Domain.Exceptions;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Shared.ErrorModels;
 
 namespace OnlineStore.MiddleWares
 {
@@ -16,17 +18,34 @@ namespace OnlineStore.MiddleWares
             try
             {
                 await _next.Invoke(context);
+                if(context.Response.StatusCode==StatusCodes.Status404NotFound)
+                {
+                    context.Response.ContentType = "application/json";
+                    var response = new ErrorDetails()
+                    {
+                        StatusCode=StatusCodes.Status404NotFound,
+                        ErrorMessage=$"End point context request path is not found "
+                    };
+                    await context.Response.WriteAsJsonAsync(response);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+             
                 context.Response.ContentType = "application/json";
                 var respon = new ErrorDetails()
                 {
                     StatusCode = StatusCodes.Status500InternalServerError,
                     ErrorMessage = ex.Message
                 };
+                respon.StatusCode = ex switch
+                {
+                    NotFoundException=>StatusCodes.Status404NotFound,
+                    _ =>StatusCodes.Status500InternalServerError
+                };
+
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 await context.Response.WriteAsJsonAsync(respon);
             }
         }

@@ -1,11 +1,13 @@
 
 using Domain.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.MiddleWares;
 using presistences;
 using presistences.Data;
 using Services;
 using ServicesAbstractions;
+using Shared.ErrorModels;
 using System.Globalization;
 using AssemplyReference = Services.AssemplyReference;
 
@@ -36,7 +38,30 @@ namespace WebApplication3api
             builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
 
             builder.Services.AddAutoMapper(typeof(AssemplyReference).Assembly);
-            
+
+
+            builder.Services.Configure<ApiBehaviorOptions>(config =>
+            {
+                config.InvalidModelStateResponseFactory = context =>
+                {
+                    var errors = context.ModelState
+                        .Where(m => m.Value.Errors.Any())
+                        .Select(m => new ValidationError
+                        {
+                            Field = m.Key,
+                            Errors = m.Value.Errors.Select(error => error.ErrorMessage)
+                        });
+
+                    var response = new ValidationErrorResponse
+                    {
+                        Errors = errors
+                    };
+
+                    return new BadRequestObjectResult(response);
+                };
+            });
+
+
 
             var app = builder.Build();
             //sedding
