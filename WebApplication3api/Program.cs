@@ -1,6 +1,7 @@
 
 using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
+using OnlineStore.MiddleWares;
 using presistences;
 using presistences.Data;
 using Services;
@@ -48,6 +49,7 @@ namespace WebApplication3api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             app.UseStaticFiles();
             app.UseHttpsRedirection();
