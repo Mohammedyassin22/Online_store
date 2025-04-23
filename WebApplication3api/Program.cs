@@ -18,21 +18,19 @@ namespace WebApplication3api
     {
         public static async Task Main(string[] args)
         {
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+            // ÊÃßÏ ãä Ãä ÇáÊåíÆÉ (configuration) áíÓÊ null ÚäÏ ÊãÑíÑåÇ Åáì RegisterAllServer
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            // ÊÃßÏ ãä Ãä ÇáÊåíÆÉ ÊÍÊæí Úáì ÇáŞíã ÇáÕÍíÍÉ
             builder.Services.RegisterAllServer(builder.Configuration);
 
-
-
             var app = builder.Build();
-            //sedding
-           await app.configurationmiddleware();
+
+            // ÇáÊåíÆÉ æÇáÅÚÏÇÏÇÊ ÇáäåÇÆíÉ
+            await app.configurationmiddleware();
 
             app.Run();
         }
+
     }
 }
