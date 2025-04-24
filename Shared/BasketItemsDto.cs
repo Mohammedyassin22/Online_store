@@ -11,5 +11,6 @@ namespace Shared
         public decimal Price { get; set; }
         [Range(1,99)]
         public int Quantity { get; set; }
+
     }
 }

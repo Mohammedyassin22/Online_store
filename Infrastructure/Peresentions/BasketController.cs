@@ -28,8 +28,7 @@ namespace Peresentions
         }
 
         [HttpDelete]
-        public async Task<IActionResult>DeleteBaslet(string id)
-        {
+        public async Task<IActionResult> DeleteBasket(string id)        {
             var result = await serviceBasket.DeleteBascketAsync(id);
             return NoContent();
         }
