@@ -28,6 +28,7 @@ namespace presistences
                 option.UseSqlServer(configur.GetConnectionString("DefaultConnection")));
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICacheRepository, CacheRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IServiceBasket, BasketService>();
             services.AddSingleton<IConnectionMultiplexer>((ServiceProvider) =>

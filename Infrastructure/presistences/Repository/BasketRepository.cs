@@ -20,12 +20,12 @@ namespace presistences.Repository
 
         public async Task<CustomerBasket?> GetBasketAsync(string id)
         {
-            var rediesvalue=await _database.StringGetAsync(id);
-            if(rediesvalue.IsNullOrEmpty) return null;
-            var basket=JsonSerializer.Deserialize<CustomerBasket>(rediesvalue);
-            if(basket is null)return null;
+            var redisValue = await _database.StringGetAsync(id);
+            if (redisValue.IsNullOrEmpty) return null;
+            var basket = JsonSerializer.Deserialize<CustomerBasket>(redisValue);
             return basket;
         }
+
 
         public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket, TimeSpan? TimeToLive = null)
         {
