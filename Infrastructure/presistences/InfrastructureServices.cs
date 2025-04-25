@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using presistences.Data;
+using presistences.Identity;
 using presistences.Repository;
 using Services;
 using ServicesAbstractions;
@@ -26,6 +27,10 @@ namespace presistences
 
             services.AddDbContext<StoreDbContext>(option =>
                 option.UseSqlServer(configur.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<StoreIdentityDbContext>(option =>
+               option.UseSqlServer(configur.GetConnectionString("IdentityConnection")));
+
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICacheRepository, CacheRepository>();

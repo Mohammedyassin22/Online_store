@@ -1,8 +1,12 @@
 ﻿using Domain.Contracts;
+using Domain.Models.Identity;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.MiddleWares;
 using presistences;
+using presistences.Data;
+using presistences.Identity;
 using Services;
 using ServicesAbstractions;
 using Shared.ErrorModels;
@@ -22,6 +26,7 @@ namespace OnlineStore.Extantion
             //seeding
             services.AddInfrastructure(configuration);
 
+            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<StoreIdentityDbContext>();
 
             services.AddScoped<IProductServices, ProductServices>();
 
@@ -58,6 +63,7 @@ namespace OnlineStore.Extantion
             using var scope = app.Services.CreateScope();
             var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
             await dbInitializer.Initializer();
+            await dbInitializer.InitializerIdentityAsync();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
