@@ -67,6 +67,17 @@ namespace presistences
                         await _context.SaveChangesAsync();
                     }
                 }
+
+                if (!_context.DeliveryMethods.Any())
+                {
+                    var typesData = await File.ReadAllTextAsync(@"..\Infrastructure\presistences\Data\Seeding\DeliveryMethod.json");
+                    var types = JsonSerializer.Deserialize<List<DeliveryMethod>>(typesData);
+                    if (types is not null && types.Any())
+                    {
+                        await _context.DeliveryMethods.AddRangeAsync(types);
+                        await _context.SaveChangesAsync();
+                    }
+                }
             }
             catch(Exception ex)
             {

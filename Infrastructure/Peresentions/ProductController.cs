@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Peresentions.Attributes;
 using Services;
@@ -22,6 +23,7 @@ namespace Peresentions
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorDetails))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
         [Cache(100)]
+        [Authorize]
         public  async Task <ActionResult<PaginationResponse<ProductDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationParameter specparams)
 
         {

@@ -1,16 +1,20 @@
 ﻿using Domain.Contracts;
 using Domain.Models.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using OnlineStore.MiddleWares;
 using presistences;
 using presistences.Data;
 using presistences.Identity;
 using Services;
 using ServicesAbstractions;
+using Shared;
 using Shared.ErrorModels;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace OnlineStore.Extantion
 {
@@ -30,9 +34,28 @@ namespace OnlineStore.Extantion
 
             services.AddScoped<IProductServices, ProductServices>();
 
-            services.AddApplicationServices();
+            services.AddApplicationServices(configuration);
 
+            //token Authorization
+            var jwtoption = configuration.GetSection("Jwtoptions").Get<Jwtoption>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer=true,
+                    ValidateAudience=true,
+                    ValidateIssuerSigningKey=true,
+                    ValidateLifetime=true,
 
+                    ValidIssuer=jwtoption.Issuer,
+                    ValidAudience=jwtoption.Audience,
+                    IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtoption.SecretKey)),
+                };
+            });
 
             services.Configure<ApiBehaviorOptions>(config =>
             {
@@ -75,6 +98,8 @@ namespace OnlineStore.Extantion
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseAuthorization();
 
 
