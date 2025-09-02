@@ -19,7 +19,7 @@ namespace Peresentions
             var result =await serviceProduct.AuthService.LoginAsync(loginDto);
             return Ok(result);
         }
-        [HttpPost("rgister")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             var result = await serviceProduct.AuthService.RegisterDto(registerDto);
